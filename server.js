@@ -20,12 +20,25 @@ app.use((req, res, next) => {
 
 });
 
-// load static files from dist folder
-app.use(express.static('dist'));
+// ==============
+// ROUTES GO HERE
+// ==============
 
-app.get('*', (req, res) => { // make sure user always gets index.html
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-})
+if (process.env.NODE_ENV !== 'production') { // if dev environment
+  const webpack = require('webpack');
+  const webpackMiddleware = require('webpack-dev-middleware');
+  const webpackConfig = require('./webpack.config');
+
+  // Use webpack-dev-middleware to serve the static content
+  app.use(webpackMiddleware(webpack(webpackConfig)));
+} else { // otherwise
+  // serve static content directly using express.static
+  app.use(express.static('dist'));
+
+  app.get('*', (req, res) => { // make sure user always gets index.html
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  });
+}
 
 app.listen(PORT, () => {
 
