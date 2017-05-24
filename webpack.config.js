@@ -25,6 +25,7 @@ module.exports = {
   },
   resolve: {
     alias: { // Modules
+      appStyles: path.resolve(__dirname, 'app/styles/app.scss'),
       Main: path.resolve(__dirname, 'app/components/Main.jsx')
     },
     extensions: [".js", ".jsx"]
@@ -36,7 +37,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/
       },
-      { // css to inline style tag
+      { // scss -> css
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.scss$/
+      },
+      { // css processing
         use: ['style-loader', 'css-loader'],
         test: /\.css$/
       }

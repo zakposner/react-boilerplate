@@ -5,8 +5,12 @@ import { Route, Router, IndexRoute, hashHistory } from 'react-router';
 // Components
 import Main from 'Main';
 
-// CSS
+// Foundation
 import 'foundation-sites/dist/css/foundation.min.css';
+$(document).foundation();
+
+// Custom CSS
+import 'appStyles';
 
 ReactDOM.render(
   <Router history={hashHistory}>
